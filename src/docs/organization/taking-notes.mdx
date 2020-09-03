@@ -19,19 +19,27 @@ Taking notes can be as simple as writing a text file, or as complex as using a d
 Often times its as simple as redirecting the `stdOut` or `stdErr` of a command to a file.
 
 Write current directory listing to notes
-```bash
-ls > output
+```sh
+ls > [output]
 ```
 - `output` filename to write to
 
 Append somefile contents to notes
-```bash
-cat somefile >> output
+```sh
+cat [somefile] >> [output]
 ```
+- `somefile` path to a source file
 - `output` filename to append to
 
-Save an `nmap` scan to a file
-```bash
-nmap target -oN output
+## Tool Output
+
+Even though you could easily use output redirection to save tool output, many tools have built in export methods that may offer additional formats better suited for automation:
+
+Save `nmap` output to a file
+```sh
+nmap [target] -oN [output] // normal output
+nmap [target] -oX [output] // XML output
+nmap [target] -oA [output] // all outputs
 ```
 - `target` target machine IP
+- `output` base name of the file
