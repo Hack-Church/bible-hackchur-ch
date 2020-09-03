@@ -1,3 +1,59 @@
 ---
 title: Passive Scanning
 ---
+
+Passive scanning is the act of gathering information on your target without engaging with the machine directly. This allows you to conduct research without alerting your target.
+
+## NSLookup
+
+You can find what IP a domain name resolves to by using `nslookup`:
+```sh
+nslookup google.com
+
+Server:         192.168.2.2
+Address:        192.168.2.2#53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 172.217.5.238df
+Name:   google.com
+Address: 2607:f8b0:4004:810::200e
+```
+The above output shows `google.com`'s `IPv4` and `IPv6` address.
+
+## Shodan
+You can use [Shodan](https://www.shodan.io) to gather information based on an IP. Using the example above, we can see additional information for `google.com` [here](https://www.shodan.io/host/172.217.5.238):
+
+- Country
+- Organization
+- Internet service provider
+- Contact information
+- Ports open
+- Services running
+
+If you have a Shodan API key, you can use the CLI tool by running `shodan init [API_key]` and use the following:
+```sh
+shodan host 172.217.5.238
+```
+
+Shodan is a powerful tool that can be used to [expplore](https://www.shodan.io/explore) the internet for specific devices such as [open webcams](https://www.shodan.io/search?query=Server%3A+SQ-WEBCAM) and [telnet logins with the password "1234"](https://www.shodan.io/search?query=input+password+%28defaul+1234%29)
+
+## Searchsploit
+
+Once you have information about your target (wether through [active scanning]() or means outlined above), you can use `searchsploit` for known vulnerabilities:
+
+```sh
+searchsploit [options] [term(s)]
+```
+
+### Useful Options
+
+- `-c`: case sensitive (*default: case insensitive*)
+- `-e`: enforces exact match on term order (*default: terms ANDed disregarding order*)
+- `-s`: enforces strict matching, disabling fuzzy matching
+- `--exclude"term1|term2"`: exclude provided terms from search results
+- `--nmap [output.xml]`: uses an `nmap` XML report as input (use `-oX` or `-oA` flag in `nmap`)
+
+### Updating Searchsploit
+
+Searchsploit is backed by ExploitDB. To ensure you have the latest exploit database you can run `searchsploit -u`
